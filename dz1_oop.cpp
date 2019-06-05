@@ -39,19 +39,71 @@ public:
 };
 class RGBA{
 private:
-    int m_red = 0;
-    int m_blue = 0;
-    int m_green = 0;
-    int m_alpha = 255;
+    uint16_t m_red = 0;
+    uint16_t m_blue = 0;
+    uint16_t m_green = 0;
+    uint16_t m_alpha = 255;
 
 public:
-    RGBA (int red, int blue, int green, int alpha)
+    RGBA (uint16_t red, uint16_t blue, uint16_t green, uint16_t alpha)
         : m_red(red), m_blue(blue), m_green(green), m_alpha(alpha)
     {
 
     }
-    void print (){
-        cout << m_red << " " << m_blue << " " << m_green << " " << m_alpha << endl;
+    void rgbaPrint (){
+        cout << "RGBA print: "<< endl << "m_red = "<< m_red << endl << "m_blue =  " << m_blue << endl
+             << "m_green = " << m_green << endl << "m_alpha = " << m_alpha << endl;
+    }
+};
+
+
+
+class Stack {
+public:
+
+    int arr[10];
+    int length = 0;
+
+public:
+
+    void reset(){
+        for(int i = 0; i <10; i++){
+            arr[i] = 0;
+        }
+        length = 0;
+    }
+
+    bool push(int valueI){
+        if(length >=0 && length < 10){
+        arr[length] = valueI;
+        length++;
+        return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+    int pop(){
+        int result;
+        result = arr[length-1];
+        arr[length-1] = 0;
+        length--;
+        if (length == 0) cout << "POP: В стеке нет значений!\n";
+        return result;
+
+    }
+    void stackPrint(){
+        if (length != 0) {
+            cout << "(";
+            for (int i = 0; i < length; i++){
+                cout << arr[i] << " ";
+            }
+            cout <<")"<< endl;
+        }
+        else{
+        cout << "()" << endl;
+        }
     }
 };
 
@@ -60,32 +112,39 @@ int main()
     setlocale(LC_ALL, "rus");
     char repeat;
 m0:
-
     puts("Задача 1.");
     Power p1;
     float valueA;
     float valueB;
     cout << "Значения переменных - членов класса Power по умолчанию:\n";
-    cout << "a = " << p1.a << endl << "b = " << p1.b << endl <<"a^b = " << p1.calculate() << endl;
+    cout << "a = " << p1.a << endl << "b = " << p1.b << endl <<"calculate (a^b) = " << p1.calculate() << endl;
     cout << "Введите новые значения a и b: ";
     cin >> valueA >> valueB;
     p1.set(valueA, valueB);
     cout << "a = " << p1.a << endl << "b = " << p1.b << endl <<"a^b = " << p1.calculate() << endl;
+    puts(" ");
 
     puts("Задача 2.");
+    uint16_t red, blue, green, alpha;
     cout << "Введите значения от 0 до 255 для m_red, m_blue, m_green, m_alpha:\n";
-
-    int red;
-    int blue;
-    int green;
-    int alpha;
-
     cin >> red >> blue >> green >> alpha;
     RGBA rgba1(red,blue,green,alpha);
-    rgba1.print();
+    rgba1.rgbaPrint();
+    puts(" ");
 
     puts("Задача 3.");
-
+    Stack stack;
+    stack.reset();
+    stack.stackPrint();
+    stack.push(3);
+    stack.push(7);
+    stack.push(5);
+    stack.stackPrint();
+    stack.pop();
+    stack.stackPrint();
+    stack.pop();
+    stack.pop();
+    stack.stackPrint();
 
     cout << "Repeat the programm? (y/n): ";
     cin >> repeat;
